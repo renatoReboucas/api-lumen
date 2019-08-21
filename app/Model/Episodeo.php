@@ -9,6 +9,7 @@ use Illuminate\Database\Eloquent\Model;
 class Episodeo extends Model{
     public $timestamps = false;
     protected $fillable = ['temporada', 'numero', 'assistido', 'serie_id'];
+    protected $appends = ['links'];
     public function serie(){
         return $this->belongsTo(Serie::class);
     }
@@ -17,5 +18,16 @@ class Episodeo extends Model{
     {
         return $assistido;
     }
+
+    public function getLinksAttribute(): array
+    {
+        return [
+            'self' => '/api/episodios/'. $this->id,
+            'serie' => '/series/'. $this->serie_id. '/episodios'
+        ];
+
+    }
+
+
 
 }
